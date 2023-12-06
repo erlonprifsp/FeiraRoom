@@ -1,4 +1,4 @@
-package br.ifsp.agendaroom.ui
+package br.ifsp.feiraroom.ui
 
 
 import android.os.Bundle
@@ -15,39 +15,34 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import br.ifsp.agendaroom.R
-import br.ifsp.agendaroom.adapter.ContatoAdapter
-import br.ifsp.agendaroom.data.Contato
-import br.ifsp.agendaroom.data.ContatoDatabase
-import br.ifsp.agendaroom.databinding.FragmentListaContatosBinding
+import br.ifsp.feiraroom.R
+import br.ifsp.feiraroom.adapter.ProdutoAdapter
+import br.ifsp.feiraroom.data.Produto
+import br.ifsp.feiraroom.data.ProdutoDatabase
+import br.ifsp.feiraroom.databinding.FragmentListaProdutosBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ListaContatosFragment : Fragment(){
+class ListaProdutosFragment : Fragment(){
 
-    private var _binding: FragmentListaContatosBinding? = null
+    private var _binding: FragmentListaProdutosBinding? = null
 
     private val binding get() = _binding!!
 
 
-    lateinit var contatoAdapter: ContatoAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
+    lateinit var produtoAdapter: ProdutoAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        _binding = FragmentListaContatosBinding.inflate(inflater, container, false)
+        _binding = FragmentListaProdutosBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        binding.fab.setOnClickListener { findNavController().navigate(R.id.action_listaContatosFragment_to_cadastroFragment) }
+        binding.fab.setOnClickListener { findNavController().navigate(R.id.action_listaProdutosFragment_to_cadastroFragment) }
 
         return root
     }
@@ -71,7 +66,7 @@ class ListaContatosFragment : Fragment(){
                     }
 
                     override fun onQueryTextChange(p0: String?): Boolean {
-                        contatoAdapter.filter.filter(p0)
+                        produtoAdapter.filter.filter(p0)
                         return true
                     }
 
@@ -95,36 +90,38 @@ class ListaContatosFragment : Fragment(){
     private fun updateUI()
     {
 
-        val db = ContatoDatabase.getDatabase(requireActivity().applicationContext)
-        var contatosLista : ArrayList<Contato>
+        val db = ProdutoDatabase.getDatabase(requireActivity().applicationContext)
+        var produtosLista : ArrayList<Produto>
 
         val recyclerView = binding.recyclerview
 
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         CoroutineScope(Dispatchers.IO).launch {
-            contatosLista = db.contatoDAO().listarContatos() as ArrayList<Contato>
-            contatoAdapter = ContatoAdapter(contatosLista)
+            produtosLista = db.produtoDAO().listarProdutos() as ArrayList<Produto>
+            produtoAdapter = ProdutoAdapter(produtosLista)
 
 
             withContext(Dispatchers.Main) {
-                recyclerView.adapter = contatoAdapter
+                recyclerView.adapter = produtoAdapter
 
-                val listener = object : ContatoAdapter.ContatoListener {
+                val listener = object : ProdutoAdapter.ProdutoListener {
                     override fun onItemClick(pos: Int) {
-                        val c = contatoAdapter.contatosListaFilterable[pos]
+                        val c = produtoAdapter.produtosListaFilterable[pos]
 
                         val bundle = Bundle()
-                        bundle.putSerializable("contato", c)
+                        bundle.putSerializable("produto", c)
 
                         findNavController().navigate(
-                            R.id.action_listaContatosFragment_to_detalheFragment,
+
+
+                            R.id.action_listaProdutosFragment_to_detalheFragment,
                             bundle
                         )
 
                     }
                 }
-                contatoAdapter.setClickListener(listener)
+                produtoAdapter.setClickListener(listener)
 
 
             }

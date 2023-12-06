@@ -1,4 +1,4 @@
-package br.ifsp.agendaroom.ui
+package br.ifsp.feiraroom.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,10 +13,10 @@ import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
-import br.ifsp.agendaroom.R
-import br.ifsp.agendaroom.data.Contato
-import br.ifsp.agendaroom.data.ContatoDatabase
-import br.ifsp.agendaroom.databinding.FragmentDetalheBinding
+import br.ifsp.feiraroom.R
+import br.ifsp.feiraroom.data.Produto
+import br.ifsp.feiraroom.data.ProdutoDatabase
+import br.ifsp.feiraroom.databinding.FragmentDetalheBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,22 +27,17 @@ class DetalheFragment : Fragment() {
 
     private val binding get() = _binding!!
 
-    lateinit var contato: Contato
+    lateinit var produto: Produto
 
 
     lateinit  var nome: EditText
     lateinit var fone: EditText
     lateinit var email: EditText
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentDetalheBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -54,15 +49,15 @@ class DetalheFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        contato = requireArguments().getSerializable("contato",Contato::class.java) as Contato
+        produto = requireArguments().getSerializable("produto",Produto::class.java) as Produto
 
         nome = binding.commonLayout.editTextNome
         fone = binding.commonLayout.editTextFone
         email = binding.commonLayout.editTextEmail
 
-        nome.setText(contato.nome)
-        fone.setText(contato.fone)
-        email.setText(contato.email)
+        nome.setText(produto.nome)
+        fone.setText(produto.fone)
+        email.setText(produto.email)
 
         val menuHost: MenuHost = requireActivity()
 
@@ -75,24 +70,24 @@ class DetalheFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 // Handle the menu selection
                 return when (menuItem.itemId) {
-                    R.id.action_alterarContato -> {
-                        val db = ContatoDatabase.getDatabase(requireActivity().applicationContext)
+                    R.id.action_alterarProduto -> {
+                        val db = ProdutoDatabase.getDatabase(requireActivity().applicationContext)
 
-                        val contatoUpdate=Contato(contato.id,nome.text.toString(),fone.text.toString(),email.text.toString())
+                        val produtoUpdate=Produto(produto.id,nome.text.toString(),fone.text.toString(),email.text.toString())
 
                         CoroutineScope(Dispatchers.IO).launch {
-                            db.contatoDAO().atualizarContato(contatoUpdate)
+                            db.produtoDAO().atualizarContato(produtoUpdate)
                         }
 
                         findNavController().popBackStack()
                         true
                     }
-                    R.id.action_excluirContato ->{
+                    R.id.action_excluirProduto ->{
 
-                        val db = ContatoDatabase.getDatabase(requireActivity().applicationContext)
+                        val db = ProdutoDatabase.getDatabase(requireActivity().applicationContext)
 
                         CoroutineScope(Dispatchers.IO).launch {
-                            db.contatoDAO().apagarContato(contato)
+                            db.produtoDAO().apagarContato(produto)
                         }
                         findNavController().popBackStack()
                         true

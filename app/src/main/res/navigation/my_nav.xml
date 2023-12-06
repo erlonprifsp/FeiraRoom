@@ -3,28 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/my_nav"
-    app:startDestination="@id/listaContatosFragment">
+    app:startDestination="@id/listaProdutosFragment">
 
     <fragment
-        android:id="@+id/listaContatosFragment"
-        android:name="br.ifsp.agendaroom.ui.ListaContatosFragment"
-        android:label="Contatos"
-        tools:layout="@layout/fragment_lista_contatos" >
+        android:id="@+id/listaProdutosFragment"
+        android:name="br.ifsp.feiraroom.ui.ListaProdutosFragment"
+        android:label="FEIRA DE VERDURAS"
+        tools:layout="@layout/fragment_lista_produtos" >
         <action
-            android:id="@+id/action_listaContatosFragment_to_cadastroFragment"
+            android:id="@+id/action_listaProdutosFragment_to_cadastroFragment"
             app:destination="@id/cadastroFragment" />
         <action
-            android:id="@+id/action_listaContatosFragment_to_detalheFragment"
+            android:id="@+id/action_listaProdutosFragment_to_detalheFragment"
             app:destination="@id/detalheFragment" />
     </fragment>
     <fragment
         android:id="@+id/cadastroFragment"
-        android:name="br.ifsp.agendaroom.ui.CadastroFragment"
-        android:label="Novo contato"
+        android:name="br.ifsp.feiraroom.ui.CadastroFragment"
+        android:label="Novo produto"
         tools:layout="@layout/fragment_cadastro" />
     <fragment
         android:id="@+id/detalheFragment"
-        android:name="br.ifsp.agendaroom.ui.DetalheFragment"
+        android:name="br.ifsp.feiraroom.ui.DetalheFragment"
         android:label="Detalhes"
         tools:layout="@layout/fragment_detalhe" />
 </navigation>

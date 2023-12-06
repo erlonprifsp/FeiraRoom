@@ -1,4 +1,4 @@
-package br.ifsp.agendaroom.ui
+package br.ifsp.feiraroom.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,10 +12,10 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
-import br.ifsp.agendaroom.R
-import br.ifsp.agendaroom.data.Contato
-import br.ifsp.agendaroom.data.ContatoDatabase
-import br.ifsp.agendaroom.databinding.FragmentCadastroBinding
+import br.ifsp.feiraroom.R
+import br.ifsp.feiraroom.data.Produto
+import br.ifsp.feiraroom.data.ProdutoDatabase
+import br.ifsp.feiraroom.databinding.FragmentCadastroBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -24,14 +24,10 @@ class CadastroFragment : Fragment(){
     private var _binding: FragmentCadastroBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentCadastroBinding.inflate(inflater, container, false)
 
@@ -53,17 +49,17 @@ class CadastroFragment : Fragment(){
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 // Handle the menu selection
                 return when (menuItem.itemId) {
-                    R.id.action_salvarContato -> {
+                    R.id.action_salvarProduto -> {
                         val nome = binding.commonLayout.editTextNome.text.toString()
                         val fone = binding.commonLayout.editTextFone.text.toString()
                         val email = binding.commonLayout.editTextEmail.text.toString()
 
-                        val c = Contato( 0,nome, fone, email)
+                        val c = Produto( 0,nome, fone, email)
 
-                        val db = ContatoDatabase.getDatabase(requireActivity().applicationContext)
+                        val db = ProdutoDatabase.getDatabase(requireActivity().applicationContext)
 
                         CoroutineScope(Dispatchers.IO).launch {
-                            db.contatoDAO().inserirContato(c)
+                            db.produtoDAO().inserirContato(c)
                         }
 
                         findNavController().popBackStack()

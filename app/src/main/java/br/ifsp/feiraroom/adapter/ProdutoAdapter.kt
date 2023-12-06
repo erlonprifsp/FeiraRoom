@@ -1,27 +1,27 @@
-package br.ifsp.agendaroom.adapter
+package br.ifsp.feiraroom.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
-import br.ifsp.agendaroom.data.Contato
-import br.ifsp.agendaroom.databinding.ContatoCelulaBinding
+import br.ifsp.feiraroom.data.Produto
+import br.ifsp.feiraroom.databinding.ContatoCelulaBinding
 
-class ContatoAdapter(val contatosLista:ArrayList<Contato>): RecyclerView.Adapter<ContatoAdapter.ContatoViewHolder>(),
+class ProdutoAdapter(val produtosLista:ArrayList<Produto>): RecyclerView.Adapter<ProdutoAdapter.ContatoViewHolder>(),
     Filterable {
 
-    var listener: ContatoListener?=null
+    var listener: ProdutoListener?=null
 
-    var contatosListaFilterable = ArrayList<Contato>()
+    var produtosListaFilterable = ArrayList<Produto>()
 
     private lateinit var binding: ContatoCelulaBinding
 
     init {
-        this.contatosListaFilterable = contatosLista
+        this.produtosListaFilterable = produtosLista
     }
 
-    fun setClickListener(listener: ContatoListener)
+    fun setClickListener(listener: ProdutoListener)
     {
         this.listener = listener
     }
@@ -37,12 +37,12 @@ class ContatoAdapter(val contatosLista:ArrayList<Contato>): RecyclerView.Adapter
     }
 
     override fun onBindViewHolder(holder: ContatoViewHolder, position: Int) {
-        holder.nomeVH.text = contatosListaFilterable[position].nome
-        holder.foneVH.text = contatosListaFilterable[position].fone
+        holder.nomeVH.text = produtosListaFilterable[position].nome
+        holder.foneVH.text = produtosListaFilterable[position].fone
     }
 
     override fun getItemCount(): Int {
-        return contatosListaFilterable.size
+        return produtosListaFilterable.size
     }
 
     inner class ContatoViewHolder(view: ContatoCelulaBinding): RecyclerView.ViewHolder(view.root)
@@ -58,7 +58,7 @@ class ContatoAdapter(val contatosLista:ArrayList<Contato>): RecyclerView.Adapter
 
     }
 
-    interface ContatoListener
+    interface ProdutoListener
     {
         fun onItemClick(pos: Int)
     }
@@ -67,22 +67,22 @@ class ContatoAdapter(val contatosLista:ArrayList<Contato>): RecyclerView.Adapter
         return object : Filter(){
             override fun performFiltering(p0: CharSequence?): FilterResults {
                 if (p0.toString().isEmpty())
-                    contatosListaFilterable = contatosLista
+                    produtosListaFilterable = produtosLista
                 else
                 {
-                    val resultList = ArrayList<Contato>()
-                    for (row in contatosLista)
+                    val resultList = ArrayList<Produto>()
+                    for (row in produtosLista)
                         if (row.nome.lowercase().contains(p0.toString().lowercase()))
                             resultList.add(row)
-                    contatosListaFilterable = resultList
+                    produtosListaFilterable = resultList
                 }
                 val filterResults = FilterResults()
-                filterResults.values = contatosListaFilterable
+                filterResults.values = produtosListaFilterable
                 return filterResults
             }
 
             override fun publishResults(p0: CharSequence?, p1: FilterResults?) {
-                contatosListaFilterable = p1?.values as ArrayList<Contato>
+                produtosListaFilterable = p1?.values as ArrayList<Produto>
                 notifyDataSetChanged()
             }
 

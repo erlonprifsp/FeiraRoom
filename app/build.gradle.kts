@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "br.ifsp.agendaroom"
+    namespace = "br.ifsp.feiraroom"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "br.ifsp.agendaroom"
+        applicationId = "br.ifsp.feiraroom"
         minSdk = 33
         versionCode = 1
         versionName = "1.0"

@@ -1,11 +1,11 @@
-package br.ifsp.agendaroom.data
+package br.ifsp.feiraroom.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
 
 @Entity
-data class Contato (
+data class Produto (
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val nome:String,

@@ -1,4 +1,4 @@
-package br.ifsp.agendaroom.data
+package br.ifsp.feiraroom.data
 
 import android.content.Context
 import androidx.room.Database
@@ -6,20 +6,20 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 
-@Database(entities = [Contato::class], version = 1)
-abstract class ContatoDatabase: RoomDatabase() {
-    abstract fun contatoDAO(): ContatoDAO
+@Database(entities = [Produto::class], version = 1)
+abstract class ProdutoDatabase: RoomDatabase() {
+    abstract fun produtoDAO(): ProdutoDAO
 
     companion object {
         @Volatile
-        private var INSTANCE: ContatoDatabase? = null
+        private var INSTANCE: ProdutoDatabase? = null
 
-        fun getDatabase(context: Context): ContatoDatabase {
+        fun getDatabase(context: Context): ProdutoDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    ContatoDatabase::class.java,
-                    "agendaroom.db"
+                    ProdutoDatabase::class.java,
+                    "feiraroom.db"
                 ).build()
                 INSTANCE = instance
                 // return instance
